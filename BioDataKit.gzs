@@ -1,0 +1,30 @@
+actors
+    actor
+        uuid = "0F5156508ABE4252B982C1201FD205D9"
+        type = "Python"
+        name = "0F5156"
+        endpoint = "inproc://0F5156508ABE4252B982C1201FD205D9"
+        xpos = "93.000000"
+        ypos = "141.000000"
+        pyfile = "BioDataKitActor.py"
+    actor
+        uuid = "021073DF8DAA45F4BAB9BB0AD1328C39"
+        type = "OSC Output"
+        name = "default"
+        endpoint = "inproc://021073DF8DAA45F4BAB9BB0AD1328C39"
+        xpos = "639.000000"
+        ypos = "494.000000"
+        name = "default"
+        ip = "10.2.4.198"
+        port = "6200"
+    actor
+        uuid = "16E4CCF30CD748C29BDC8B9796F0DE91"
+        type = "Log"
+        name = "16E4CC"
+        endpoint = "inproc://16E4CCF30CD748C29BDC8B9796F0DE91"
+        xpos = "688.500000"
+        ypos = "154.000000"
+connections
+    con = "inproc://0F5156508ABE4252B982C1201FD205D9,inproc://58DDB38DFA6B4AE7B6FFD47A84891DCD,OSC"
+    con = "inproc://021073DF8DAA45F4BAB9BB0AD1328C39,inproc://0F5156508ABE4252B982C1201FD205D9,OSC"
+    con = "inproc://16E4CCF30CD748C29BDC8B9796F0DE91,inproc://0F5156508ABE4252B982C1201FD205D9,OSC"
