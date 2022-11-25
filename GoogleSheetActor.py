@@ -25,6 +25,7 @@ class GoogleSheetActor(object):
 
     def handleSocket(self, address, data, *args, **kwargs):
         if self.prepend_timestamp:
+            data = list(data)
             data.insert(0, time.time())
         self.sheet.append_row(data)
 
