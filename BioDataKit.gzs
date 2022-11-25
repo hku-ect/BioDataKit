@@ -23,7 +23,7 @@ actors
         xpos = "639.000000"
         ypos = "494.000000"
         name = "default"
-        ip = "10.2.4.198"
+        ip = "239.0.0.1"
         port = "6200"
     actor
         uuid = "16E4CCF30CD748C29BDC8B9796F0DE91"
