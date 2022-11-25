@@ -1,6 +1,7 @@
 from oauth2client.service_account import ServiceAccountCredentials
 import gspread
 import json
+import time
 
 class GoogleSheetActor(object):
 
@@ -14,6 +15,8 @@ class GoogleSheetActor(object):
         self.sheet = self.file.open("BioDataKit")  #open sheet
         #print(dir(sheet))
         self.sheet = self.sheet.sheet1  #replace sheet_name with the name that corresponds to yours, e.g, it can be sheet1
+        
+        self.prepend_timestamp = True
         #print(dir(sheet))
         #all_cells = sheet.range('A1:C6')
         #print(all_cells[0])
@@ -21,6 +24,8 @@ class GoogleSheetActor(object):
         #self.sheet.append_row(report_line)
 
     def handleSocket(self, address, data, *args, **kwargs):
+        if self.prepend_timestamp:
+            data.insert(0, time.time())
         self.sheet.append_row(data)
 
     def handleStop(self, *args, **kwargs):
