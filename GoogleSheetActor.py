@@ -22,3 +22,6 @@ class GoogleSheetActor(object):
 
     def handleSocket(self, address, data, *args, **kwargs):
         self.sheet.append_row(data)
+
+    def handleStop(self, *args, **kwargs):
+        pass

@@ -26,11 +26,6 @@ logging.basicConfig(
     level=logging.INFO,
     datefmt='%Y-%m-%d %H:%M:%S')
 
-logging.info("""combined.py - Displays readings from all of Enviro plus' sensors
-
-Press Ctrl+C to exit!
-
-""")
 
 class BioDataKitActor(object):
     def __init__(self, *args, **kwargs):
