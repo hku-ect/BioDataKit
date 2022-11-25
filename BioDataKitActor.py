@@ -208,80 +208,90 @@ class BioDataKitActor(object):
         output, _error = process.communicate()
         return float(output[output.index('=') + 1:output.rindex("'")])
 
-    def process_sensor(self, mode):
+    def process_sensor(self):
         # One mode for each variable
-        if mode == 0:
-            # variable = "temperature"
-            unit = "C"
-            cpu_temp = self.get_cpu_temperature()
-            # Smooth out with some averaging to decrease jitter
-            self.cpu_temps = self.cpu_temps[1:] + [cpu_temp]
-            avg_cpu_temp = sum(self.cpu_temps) / float(len(self.cpu_temps))
-            raw_temp = self.bme280.get_temperature()
-            data = raw_temp - ((avg_cpu_temp - raw_temp) / self.factor)
-            self.save_data(mode, data)
-            self.display_everything()
-            return("/{}".format(self.variables[mode]), [data, unit])
+        mode = 0
+        oscdata = []
+        # variable = "temperature"
+        unit = "C"
+        cpu_temp = self.get_cpu_temperature()
+        # Smooth out with some averaging to decrease jitter
+        self.cpu_temps = self.cpu_temps[1:] + [cpu_temp]
+        avg_cpu_temp = sum(self.cpu_temps) / float(len(self.cpu_temps))
+        raw_temp = self.bme280.get_temperature()
+        data = raw_temp - ((avg_cpu_temp - raw_temp) / self.factor)
+        self.save_data(mode, data)
+        #self.display_everything()
+        #return("/{}".format(self.variables[mode]), [data, unit])
+        oscdata.extend([data, unit])
 
-        if mode == 1:
-            # variable = "pressure"
-            unit = "hPa"
-            data = self.bme280.get_pressure()
-            self.save_data(mode, data)
-            self.display_everything()
-            return("/{}".format(self.variables[mode]), [data, unit])
+        mode = 1
+        #if mode == 1:
+        # variable = "pressure"
+        unit = "hPa"
+        data = self.bme280.get_pressure()
+        self.save_data(mode, data)
+        #self.display_everything()
+        #return("/{}".format(self.variables[mode]), [data, unit])
+        oscdata.extend([data, unit])
 
-        if mode == 2:
-            # variable = "humidity"
-            unit = "%"
-            data = self.bme280.get_humidity()
-            self.save_data(mode, data)
-            self.display_everything()
-            return("/{}".format(self.variables[mode]), [data, unit])
+        mode = 2
+        # variable = "humidity"
+        unit = "%"
+        data = self.bme280.get_humidity()
+        self.save_data(mode, data)
+        #self.display_everything()
+        #return("/{}".format(self.variables[mode]), [data, unit])
+        oscdata.extend([data, unit])
 
-        if mode == 3:
-            # variable = "light"
-            unit = "Lux"
-            if self.proximity < 10:
-                data = ltr559.get_lux()
-            else:
-                data = 1
-            self.save_data(mode, data)
-            self.display_everything()
-            return("/{}".format(self.variables[mode]), [data, unit])
+        mode = 3
+        # variable = "light"
+        unit = "Lux"
+        if self.proximity < 10:
+            data = ltr559.get_lux()
+        else:
+            data = 1
+        self.save_data(mode, data)
+        #self.display_everything()
+        #return("/{}".format(self.variables[mode]), [data, unit])
+        oscdata.extend([data, unit])
 
-        if mode == 4:
-            # variable = "oxidised"
-            unit = "kO"
-            data = gas.read_all()
-            data = data.oxidising / 1000
-            self.save_data(mode, data)
-            self.display_everything()
-            return("/{}".format(self.variables[mode]), [data, unit])
+        mode = 4
+        # variable = "oxidised"
+        unit = "kO"
+        data = gas.read_all()
+        data = data.oxidising / 1000
+        self.save_data(mode, data)
+        #self.display_everything()
+        #return("/{}".format(self.variables[mode]), [data, unit])
+        oscdata.extend([data, unit])
 
-        if mode == 5:
-            # variable = "reduced"
-            unit = "kO"
-            data = gas.read_all()
-            data = data.reducing / 1000
-            self.save_data(mode, data)
-            self.display_everything()
-            return("/{}".format(self.variables[mode]), [data, unit])
+        mode = 5
+        # variable = "reduced"
+        unit = "kO"
+        data = gas.read_all()
+        data = data.reducing / 1000
+        self.save_data(mode, data)
+        #self.display_everything()
+        #return("/{}".format(self.variables[mode]), [data, unit])
+        oscdata.extend([data, unit])
 
-        if mode == 6:
-            # variable = "nh3"
-            unit = "kO"
-            data = gas.read_all()
-            data = data.nh3 / 1000
-            self.save_data(mode, data)
-            self.display_everything()
-            return("/{}".format(self.variables[mode]), [data, unit])
+        mode = 6
+        variable = "nh3"
+        unit = "kO"
+        data = gas.read_all()
+        data = data.nh3 / 1000
+        self.save_data(mode, data)
+        #self.display_everything()
+        #return("/{}".format(self.variables[mode]), [data, unit])
+        oscdata.extend([data, unit])
 
+        return ("/enviro", oscdata)
 
     def handleTimer(self, *args, **kwargs):
-        self.mode +=1
-        self.mode %= len(self.variables)
-        return self.process_sensor(self.mode)
+        #self.mode +=1
+        #self.mode %= len(self.variables)
+        return self.process_sensor()
 
     def handleStop(self, *args, **kwargs):
         pass
