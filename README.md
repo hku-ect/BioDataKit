@@ -110,3 +110,29 @@ We now have gazebosc in the `gazebosc/build/bin` directory. We can execute from 
 ```
 ~/src/gazebosc/build/bin/gazebosc ~/src/BioDataKit/BioDataKit.gzs
 ```
+# Run Gazebosc at boot (as a service)
+
+Create the `/etc/systemd/system/gazebosc.service` file:
+
+```
+[Unit]
+Description=GazebOSC
+After=multi-user.target
+
+[Service]
+# Uncomment and edit these if you want to use a vitrual env
+#Environment="VIRTUAL_ENV=/home/ect/src/BioDataKit/pyenv"
+#Environment="PATH=/home/ect/src/BioDataKit/pyenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/games:/usr/games"
+# Edit these paths to match your setup
+WorkingDirectory=/home/ect/src/BioDataKit
+ExecStart=/home/ect/src/gazebosc/build/bin/gazebosc BioDataKit.gzs
+
+[Install]
+WantedBy=multi-user.target
+```
+Install and enable with:
+```
+sudo systemctl daemon-reload
+sudo systemctl enable gazebosc
+sudo systemctl start gazebosc
+```
