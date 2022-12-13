@@ -29,7 +29,7 @@ logging.basicConfig(
 
 class BioDataKitActor(object):
     def __init__(self, *args, **kwargs):
-        self.timeout = 1000 # run every second
+        self.timeout = 1000 * 60 * 10 # run every 10 min
         # BME280 temperature/pressure/humidity sensor
         self.bme280 = BME280()
 
