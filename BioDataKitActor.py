@@ -209,12 +209,13 @@ class BioDataKitActor(object):
         oscdata = []
         # variable = "temperature"
         unit = "C"
-        cpu_temp = self.get_cpu_temperature()
+        #cpu_temp = self.get_cpu_temperature()
         # Smooth out with some averaging to decrease jitter
-        self.cpu_temps = self.cpu_temps[1:] + [cpu_temp]
-        avg_cpu_temp = sum(self.cpu_temps) / float(len(self.cpu_temps))
-        raw_temp = self.bme280.get_temperature()
-        data = raw_temp - ((avg_cpu_temp - raw_temp) / self.factor)
+        #self.cpu_temps = self.cpu_temps[1:] + [cpu_temp]
+        #avg_cpu_temp = sum(self.cpu_temps) / float(len(self.cpu_temps))
+        #raw_temp = self.bme280.get_temperature()
+        #data = raw_temp - ((avg_cpu_temp - raw_temp) / self.factor)
+        data = self.bme280.get_temperature()
         self.save_data(mode, data)
         #self.display_everything()
         #return("/{}".format(self.variables[mode]), [data, unit])
@@ -277,7 +278,7 @@ class BioDataKitActor(object):
         data = gas.read_all()
         data = data.nh3 / 1000
         self.save_data(mode, data)
-        #self.display_everything()
+        self.display_everything()
         #return("/{}".format(self.variables[mode]), [data, unit])
         oscdata.extend([data, unit])
 

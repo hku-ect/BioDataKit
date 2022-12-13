@@ -320,12 +320,13 @@ def main():
                     # data = float(data.pm_ug_per_m3(10))
                     # display_text(variables[mode], data, unit)
             # Temp
-            cpu_temp = get_cpu_temperature()
+            #cpu_temp = get_cpu_temperature()
             # Smooth out with some averaging to decrease jitter
-            cpu_temps = cpu_temps[1:] + [cpu_temp]
-            avg_cpu_temp = sum(cpu_temps) / float(len(cpu_temps))
-            raw_temp = bme280.get_temperature()
-            raw_data = raw_temp - ((avg_cpu_temp - raw_temp) / factor)
+            #cpu_temps = cpu_temps[1:] + [cpu_temp]
+            #avg_cpu_temp = sum(cpu_temps) / float(len(cpu_temps))
+            #raw_temp = bme280.get_temperature()
+            #raw_data = raw_temp - ((avg_cpu_temp - raw_temp) / factor)
+            raw_data = bme280.get_temperature()
             save_data(0, raw_data)
             
             # Pressure
