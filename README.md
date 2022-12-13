@@ -82,3 +82,31 @@ If all went well we can now test the sensor board using python3:
 pip3 install -r requirements.txt
 python3 main.py
 ```
+
+# Gazebosc Installation notes
+
+We don't ship prebuild binaries for the raspberry pi yet. So we need to build from source. Just follow the following script:
+
+```bash
+sudo apt install git libtool-bin libdrm-dev libgbm-dev build-essential libtool-bin cmake \
+    pkg-config autotools-dev autoconf automake libevdev2 libgles2-mesa-dev \
+    uuid-dev libpcre3-dev libsodium-dev python3-dev libasound2-dev libxext-dev
+cd ~/src
+git clone https://github.com/zeromq/libzmq.git
+cd libzmq
+./autogen.sh && ./configure --without-documentation
+make
+sudo make install
+cd ..
+git clone --recurse-submodules http://github.com/hku-ect/gazebosc.git
+mkdir gazebosc/build
+cd gazebosc/build
+cmake .. -DWITH_OPENVR=OFF 
+CFLAGS=-mfpu=neon make
+```
+
+We now have gazebosc in the `gazebosc/build/bin` directory. We can execute from there. For example to run the BioDataKit stage run:
+
+```
+~/src/gazebosc/build/bin/gazebosc ~/src/BioDataKit/BioDataKit.gzs
+```
