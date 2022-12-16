@@ -13,8 +13,9 @@ Note: we still need to calibrate these sensors!
 This reposity consists of:
 
 * main.py: A basic python script to send enviro sensor data through OSC
-* BioDataKitActor.py: A Gazebosc Actor to send enviro sensor data
-* BioDataKit.gzs: An example Gazebosc stage
+* BioDataKitActor.py: A [Gazebosc](https://github.com/hku-ect/gazebosc) Actor to send enviro sensor data
+* BioDataKit.gzs: An example [Gazebosc](https://github.com/hku-ect/gazebosc) stage
+* GoogleSheetActor.py: A [Gazebosc](https://github.com/hku-ect/gazebosc)  Actor to send OSC data to a google sheet
 
 ![enviro image](https://cdn.shopify.com/s/files/1/0174/1800/products/Enviro-Plus-pHAT-on-white-2_192x192.jpg?v=1573820030)
 
