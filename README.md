@@ -86,7 +86,8 @@ cd ~/src
 We will now clone the software repository
 
 ```bash
-git clone https://github.com/hku-ect/BioDataKit.gitcd BioDataKit
+git clone https://github.com/hku-ect/BioDataKit.git
+cd BioDataKit
 ```
 
 If all went well we can now test the sensor board using python3:
