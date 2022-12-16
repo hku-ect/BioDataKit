@@ -1,6 +1,6 @@
 # Bio Data Kit
 
-A accesible setup of enviro boards on a Raspberry Pi. The enviro boards can monitor:
+Accesible setup of enviro boards on a Raspberry Pi. The enviro boards can monitor:
 
 * temperature
 * humidity
