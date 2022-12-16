@@ -1,5 +1,17 @@
 # Bio Data Kit
 
+A accesible setup of enviro boards on a Raspberry Pi. The enviro boards can monitor:
+
+* temperature
+* humidity
+* light
+* proximity
+* sound (ADC)
+
+Note: we still need to calibrate these sensors!
+
+This reposity consists of:
+
 * main.py: A basic python script to send enviro sensor data through OSC
 * BioDataKitActor.py: A Gazebosc Actor to send enviro sensor data
 * BioDataKit.gzs: An example Gazebosc stage
