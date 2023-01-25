@@ -23,7 +23,7 @@ class GoogleSheetActor(object):
         try:
             self.sheet = self.sheet.get_worksheet(self.sheetidx)
             #replace sheet_name with the name that corresponds to yours, e.g, it can be sheet1
-        except Exception(e):
+        except Exception as e:
             print(e)
             print("WARNING: sheet not found, using the first sheet instead")
             self.sheet = self.sheet.get_worksheet(0)
