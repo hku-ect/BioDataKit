@@ -2,10 +2,16 @@ from oauth2client.service_account import ServiceAccountCredentials
 import gspread
 import json
 import time
+import os
+
+# Read gspread documentation for details about the sheet api
 
 class GoogleSheetActor(object):
 
     def __init__(self, *args, **kwargs):
+        # index for google sheet tab
+        self.sheetidx = os.getenv('GSHEETIDX', 0)
+
         self.scopes = [
             'https://www.googleapis.com/auth/spreadsheets',
             'https://www.googleapis.com/auth/drive'
@@ -14,14 +20,14 @@ class GoogleSheetActor(object):
         self.file = gspread.authorize(self.credentials) # authenticate the JSON key with gspread
         self.sheet = self.file.open("BioDataKit")  #open sheet
         #print(dir(sheet))
-        self.sheet = self.sheet.sheet1  #replace sheet_name with the name that corresponds to yours, e.g, it can be sheet1
-        
+        try:
+            self.sheet = self.sheet.get_worksheet(self.sheetidx)
+            #replace sheet_name with the name that corresponds to yours, e.g, it can be sheet1
+        except Exception(e):
+            print(e)
+            print("WARNING: sheet not found, using the first sheet instead")
+            self.sheet = self.sheet.get_worksheet(0)
         self.prepend_timestamp = True
-        #print(dir(sheet))
-        #all_cells = sheet.range('A1:C6')
-        #print(all_cells[0])
-        #report_line = ['name', 'finished <None or int>', 'duration <str>', 'id']
-        #self.sheet.append_row(report_line)
 
     def handleSocket(self, address, data, *args, **kwargs):
         if self.prepend_timestamp:
