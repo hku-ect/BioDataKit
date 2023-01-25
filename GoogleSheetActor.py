@@ -10,7 +10,7 @@ class GoogleSheetActor(object):
 
     def __init__(self, *args, **kwargs):
         # index for google sheet tab
-        self.sheetidx = os.getenv('GSHEETIDX', 0)
+        self.sheetidx = int(os.getenv('GSHEETIDX', "0"))
 
         self.scopes = [
             'https://www.googleapis.com/auth/spreadsheets',
