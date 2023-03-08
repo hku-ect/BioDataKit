@@ -68,6 +68,18 @@ class BioDataKitActor(object):
 
         # The position of the top bar
         self.top_pos = 25
+        
+        # compensate vars (from enviromonitor)
+        self.temp_offset = 0
+        self.comp_temp_cub_a = -0.0001
+        self.comp_temp_cub_b = 0.0037
+        self.comp_temp_cub_c = 1.00568
+        self.comp_temp_cub_d = -6.78291
+        self.comp_temp_cub_d = self.comp_temp_cub_d + self.temp_offset
+        # Quadratic polynomial hum comp coefficients
+        self.comp_hum_quad_a = -0.0032
+        self.comp_hum_quad_b = 1.6931
+        self.comp_hum_quad_c = 0.9391
 
         # Create a values dict to store the data
         self.variables = ["temperature",
@@ -203,19 +215,27 @@ class BioDataKitActor(object):
         output, _error = process.communicate()
         return float(output[output.index('=') + 1:output.rindex("'")])
 
+    def adjusted_temperature(self):
+        raw_temp = self.bme280.get_temperature()
+        #comp_temp = comp_temp_slope * raw_temp + comp_temp_intercept
+        comp_temp = (self.comp_temp_cub_a * math.pow(raw_temp, 3) + self.comp_temp_cub_b * math.pow(raw_temp, 2) +
+                     self.comp_temp_cub_c * raw_temp + self.comp_temp_cub_d)
+        return comp_temp
+        
+    def adjusted_humidity():
+        raw_hum = self.bme280.get_humidity()
+        #comp_hum = comp_hum_slope * raw_hum + comp_hum_intercept
+        comp_hum = self.comp_hum_quad_a * math.pow(raw_hum, 2) + self.comp_hum_quad_b * raw_hum + self.comp_hum_quad_c
+        return min(100, comp_hum)
+    
     def process_sensor(self):
         # One mode for each variable
         mode = 0
         oscdata = []
         # variable = "temperature"
         unit = "C"
-        #cpu_temp = self.get_cpu_temperature()
-        # Smooth out with some averaging to decrease jitter
-        #self.cpu_temps = self.cpu_temps[1:] + [cpu_temp]
-        #avg_cpu_temp = sum(self.cpu_temps) / float(len(self.cpu_temps))
-        #raw_temp = self.bme280.get_temperature()
-        #data = raw_temp - ((avg_cpu_temp - raw_temp) / self.factor)
-        data = self.bme280.get_temperature()
+        #data = self.bme280.get_temperature()
+        data = self.adjusted_temperature()
         self.save_data(mode, data)
         #self.display_everything()
         #return("/{}".format(self.variables[mode]), [data, unit])
@@ -234,7 +254,8 @@ class BioDataKitActor(object):
         mode = 2
         # variable = "humidity"
         unit = "%"
-        data = self.bme280.get_humidity()
+        #data = self.bme280.get_humidity()
+        data = self.adjusted_humidity()
         self.save_data(mode, data)
         #self.display_everything()
         #return("/{}".format(self.variables[mode]), [data, unit])
