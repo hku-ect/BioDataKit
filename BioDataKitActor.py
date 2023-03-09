@@ -223,7 +223,7 @@ class BioDataKitActor(object):
                      self.comp_temp_cub_c * raw_temp + self.comp_temp_cub_d)
         return comp_temp
         
-    def adjusted_humidity():
+    def adjusted_humidity(self):
         raw_hum = self.bme280.get_humidity()
         #comp_hum = comp_hum_slope * raw_hum + comp_hum_intercept
         comp_hum = self.comp_hum_quad_a * math.pow(raw_hum, 2) + self.comp_hum_quad_b * raw_hum + self.comp_hum_quad_c
