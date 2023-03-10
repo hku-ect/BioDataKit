@@ -14,7 +14,11 @@ int margin = 60; // don't draw near screen border
 
 void setup() {
   size(800, 600);
+  
+  // if you want other data you need to change the filename here 
+  // and download the latest data to the data folder of this sketch!
   table = loadTable("BioDataKit - enviro2.csv", "header");
+  
   println(table.getRowCount() + " total rows in table");
 }
 
