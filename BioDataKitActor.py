@@ -71,7 +71,7 @@ class BioDataKitActor(object):
         self.top_pos = 25
         
         # compensate vars (from enviromonitor)
-        self.temp_offset = 0
+        self.temp_offset = 2.3
         self.comp_temp_cub_a = -0.0001
         self.comp_temp_cub_b = 0.0037
         self.comp_temp_cub_c = 1.00568
