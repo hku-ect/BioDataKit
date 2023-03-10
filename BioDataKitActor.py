@@ -2,6 +2,7 @@
 
 import time
 import math
+import socket
 import colorsys
 import sys
 import ST7735
@@ -26,6 +27,13 @@ logging.basicConfig(
     format='%(asctime)s.%(msecs)03d %(levelname)-8s %(message)s',
     level=logging.INFO,
     datefmt='%Y-%m-%d %H:%M:%S')
+
+def get_ip():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("1.1.1.1", 80))
+    ip = s.getsockname()[0]
+    s.close()
+    return ip
 
 
 class BioDataKitActor(object):
@@ -200,7 +208,10 @@ class BioDataKitActor(object):
             unit = self.units[i]
             x = self.x_offset + ((self.WIDTH // column_count) * (i // row_count))
             y = self.y_offset + ((self.HEIGHT / row_count) * (i % row_count))
-            message = "{}: {:.1f} {}".format(variable[:4], data_value, unit)
+            if variable[:4] == "temp":
+                message = "{}: {:.1f} {}   ip:{}".format(variable[:4], data_value, unit, get_ip())
+            else:
+                message = "{}: {:.1f} {}".format(variable[:4], data_value, unit)
             lim = self.limits[i]
             rgb = self.palette[0]
             for j in range(len(lim)):
