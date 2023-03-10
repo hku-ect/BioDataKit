@@ -29,6 +29,11 @@ From the repo:
 pip install -r requirements.txt
 python3 main.py
 ```
+# Processing Plot Sketch
+
+A simple Processing sketch is included which visualises the CSV data downloaded from a google sheet.
+
+![Processing screenshot](https://raw.githubusercontent.com/hku-ect/BioDataKit/master/processing/BioDataPlotter/screenshot.png)
 
 # RPI OS Installation Notes
 
